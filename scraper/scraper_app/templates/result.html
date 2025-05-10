@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Scraper</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row bg-danger text-white p-4 mb-4 rounded-bottom shadow">
+            <div class="col-md-12 text-center">
+                <h1 class="display-5 font-weight-bold">
+                    LINK SCRAPER
+                </h1>
+                <p class="lead mb-0">Extract and analyze web links</p>
+            </div>
+        </div>
+        <div class="row m-3">
+            <div class="col-md-12">
+                <form method="POST" action="/">
+                    {% csrf_token %}
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <input class="form-control" type="text" name="site" placeholder="Enter site URL">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" type="submit">Scrape</button>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-warning" href="/clear">Clear All Links</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for link in data %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ link.name|default:"No name" }}</td>
+                            <td><a href="{{ link.address }}" target="_blank">{{ link.address|truncatechars:50 }}</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
